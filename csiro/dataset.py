@@ -30,7 +30,9 @@ class CsiroDataset:
             kaggle.api.authenticate()
             logger.info("Kaggle authentication complete")
             kaggle.api.competition_download_files(
-                CsiroDataset.competition_name, path=output
+                CsiroDataset.competition_name,
+                path=output,
+                unzip=True,
             )
             logger.info("dataset download complete")
         except Exception as e:

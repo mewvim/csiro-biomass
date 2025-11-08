@@ -26,12 +26,15 @@ class CsiroDataset:
         logger.info("Configured kaggle credentials")
 
     def download_dataset(self, output: Path) -> None:
-        kaggle.api.authenticate()
-        logger.info("Kaggle authentication complete")
-        kaggle.api.competition_download_files(
-            CsiroDataset.competition_name, path=output
-        )
-        logger.info("dataset download complete")
+        try:
+            kaggle.api.authenticate()
+            logger.info("Kaggle authentication complete")
+            kaggle.api.competition_download_files(
+                CsiroDataset.competition_name, path=output
+            )
+            logger.info("dataset download complete")
+        except Exception as e:
+            logger.error("Failed to download kaggle dataset: ", e)
 
     def build_kaggle_credentials(self) -> None:
         if not CsiroDataset.kaggle_config.exists():

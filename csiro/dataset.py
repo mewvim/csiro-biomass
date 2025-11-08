@@ -32,7 +32,7 @@ class CsiroDataset:
             kaggle.api.competition_download_files(
                 CsiroDataset.competition_name,
                 path=output,
-                unzip=True,
+                quiet=False,
             )
             logger.info("dataset download complete")
         except Exception as e:

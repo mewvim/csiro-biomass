@@ -1,6 +1,9 @@
 SHELL := /bin/bash
 DD := docker
 
+# kaggle file credentials location
+KAGGLE_CREDS := $(HOME/.kaggle/kaggle.json)
+
 # Version management - pulled from pyproject.toml
 DOCKER_HUB_USERNAME := mewvim
 VERSION := $(shell grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
@@ -30,11 +33,15 @@ publish-image:
 .PHONY: download-version
 download-version:
 	@echo "downloading dataset"
-	$(DD) run -d --rm --name download $(IMAGE_NAME):$(VERSION) \
+	$(DD) run -i --rm --name download \
+		-v $(KAGGLE_CREDS):/root/.kaggle/kaggle.json \
+		$(IMAGE_NAME):$(VERSION) \
 		dataset --download datasetname
 
 .PHONY: download-latest
 download-latest:
-	$(DD) run -d --rm --name download $(IMAGE_NAME):latest \
+	$(DD) run -i --rm --name download \
+		-v $(KAGGLE_CREDS):/root/.kaggle/kaggle.json \
+		$(IMAGE_NAME):latest \
 		dataset --download datasetname
 

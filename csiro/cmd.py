@@ -1,8 +1,11 @@
 import os
 import random
 from argparse import ArgumentParser, Namespace
+from pathlib import Path
 
 import numpy as np
+
+from csiro.dataset import CsiroDataset
 from csiro.logging_config import get_logger, setup_logging
 
 
@@ -57,4 +60,7 @@ def main() -> None:
 
     # downloading data
     if config.command == "dataset":
-        print("going to try to download dataset")
+        dataset = CsiroDataset(
+            username=os.environ.get("KAGGLE_USERNAME"), key=os.environ.get("KAGGLE_KEY")
+        )
+        dataset.download_dataset(Path("."))

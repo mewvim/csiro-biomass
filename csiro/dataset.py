@@ -2,7 +2,7 @@ import json
 import os
 from pathlib import Path
 
-import kaggle
+from kaggle.api.kaggle_api_extended import KaggleApi
 
 from csiro.logging_config import get_logger
 
@@ -27,9 +27,10 @@ class CsiroDataset:
 
     def download_dataset(self, output: Path) -> None:
         try:
-            kaggle.api.authenticate()
+            api = KaggleApi()
+            api.authenticate()
             logger.info("Kaggle authentication complete")
-            kaggle.api.competition_download_files(
+            api.competition_download_files(
                 CsiroDataset.competition_name,
                 path=output,
                 quiet=False,

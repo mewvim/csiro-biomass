@@ -29,6 +29,7 @@ class CsiroDataset:
 
     def build_kaggle_credentials(self) -> None:
         if not CsiroDataset.kaggle_config.exists():
+            os.makedirs(CsiroDataset.kaggle_config.parent, exist_ok=True)
             kaggle_json = {"username": self.username, "key": self.key}
             with open(CsiroDataset.kaggle_config, "w") as fh:
                 json.dump(kaggle_json, fh)
